@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<p id="m">時刻表を開いています…</p>
+<script>
+var q = new URLSearchParams(location.search);
+var from = q.get('from') || '西国立';
+var to = q.get('to') || '立川';
+var min = parseInt(q.get('min') || '15', 10);
+var d = new Date(Date.now() + min * 60000);
+var p = function(n){ return (n < 10 ? '0' : '') + n; };
+var mi = d.getMinutes();
+var url = 'https://transit.yahoo.co.jp/search/result'
+  + '?from=' + encodeURIComponent(from)
+  + '&to=' + encodeURIComponent(to)
+  + '&y=' + d.getFullYear()
+  + '&m=' + p(d.getMonth() + 1)
+  + '&d=' + p(d.getDate())
+  + '&hh=' + p(d.getHours())
+  + '&m1=' + Math.floor(mi / 10)
+  + '&m2=' + (mi % 10)
+  + '&type=1';
+document.getElementById('m').innerHTML = '<a href="' + url + '">開かない場合はこちら</a>';
+location.replace(url);
+</script>
